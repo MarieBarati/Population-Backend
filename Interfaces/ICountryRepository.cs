@@ -11,6 +11,7 @@ namespace WebApplication2.Interfaces
         Task<IEnumerable<Country>> GetCountries();
         void AddCountry(Country country);
         void DeleteCounry(int CountryId);
+        Task<Country> FindCountry(int Id);
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApplication2.Dtoes;
@@ -36,6 +37,25 @@ namespace WebApplication2.Controllers
              unitOfWork.countryRepository.AddCountry(country);
             await unitOfWork.SaveAsync();
             return StatusCode(201);
+
+        }
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCountry(int id,CountryDto countryDto)
+        {
+            var country_db = await unitOfWork.countryRepository.FindCountry(id);
+            mapper.Map(countryDto, country_db);
+            await unitOfWork.SaveAsync();
+            return Ok(200);
+
+        }
+        [HttpPatch("update/{id}")]
+        public async Task<IActionResult> UpdateCountrypatch(int id, JsonPatchDocument<Country> countryToPatch)
+        {
+            var country_db = await unitOfWork.countryRepository.FindCountry(id);
+            
+            countryToPatch.ApplyTo(country_db, ModelState);
+            await unitOfWork.SaveAsync();
+            return Ok(200);
 
         }
         [HttpDelete("delete/{id}")]

@@ -28,6 +28,11 @@ namespace WebApplication2.Data.Repo
             dataContext.Countries.Remove(country);
         }
 
+        public async Task<Country> FindCountry(int Id)
+        {
+            return await dataContext.Countries.FindAsync(Id);
+        }
+
         public async Task<IEnumerable<Country>> GetCountries()
         {
            return await dataContext.Countries.ToListAsync();
